@@ -48,7 +48,7 @@ async def send_random_doujin(bot, ev):
         msg, text = get_msg_by_doujin(each)
         text = list_to_forward(text)
         data = list_to_forward(msg)
-        await bot.send(ev, text)
+        await bot.send_group_forward_msg(group_id=gid, messages=text)
         await bot.send_group_forward_msg(group_id=gid, messages=data)
     await bot.send(ev, f'[CQ:at,qq={uid}]你的本子好了')
 
@@ -78,6 +78,6 @@ async def send_search_doujin(bot, ev):
         msg, text = get_msg_by_doujin(each)
         text = list_to_forward(text)
         data = list_to_forward(msg)
-        await bot.send(ev, text)
+        await bot.send_group_forward_msg(group_id=gid, messages=text)
         await bot.send_group_forward_msg(group_id=gid, messages=data)
     await bot.send(ev, f'[CQ:at,qq={uid}]你的本子好了')
