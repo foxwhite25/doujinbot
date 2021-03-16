@@ -43,14 +43,15 @@ async def send_random_doujin(bot, ev):
     if result != 0:
         await bot.send(ev, msg)
         return
-    await bot.send(ev, '开始处理本子')
     doujins = get_random_doujin_list(num)
     for each in doujins:
-        msg = get_msg_by_doujin(each)
+        msg, text = get_msg_by_doujin(each)
+        text = list_to_forward(text)
         data = list_to_forward(msg)
-        await bot.send(ev, '本子处理完毕')
+        await bot.send(ev, text)
         await bot.send_group_forward_msg(group_id=gid, messages=data)
-    await bot.send(ev, f'[CQ:at ,qq={uid}]你的本子好了')
+    await bot.send(ev, f'[CQ:at,qq={uid}]你的本子好了')
+
 
 @sv.on_rex(r'^搜[索]?(\d*)[份张]*(.*?)本子(.*)')
 async def send_search_doujin(bot, ev):
@@ -74,7 +75,9 @@ async def send_search_doujin(bot, ev):
     await bot.send(ev, '正在搜索...')
     doujins = get_search_doujin_list(keyword, num)
     for each in doujins:
-        msg = get_msg_by_doujin(each)
+        msg, text = get_msg_by_doujin(each)
+        text = list_to_forward(text)
         data = list_to_forward(msg)
+        await bot.send(ev, text)
         await bot.send_group_forward_msg(group_id=gid, messages=data)
-    await bot.send(ev, f'[CQ:at ,qq={uid}]你的本子好了')
+    await bot.send(ev, f'[CQ:at,qq={uid}]你的本子好了')

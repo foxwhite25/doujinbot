@@ -1,20 +1,20 @@
 from .nhentai import *
+import random
 import ujson as json
 
 
 def get_random_doujin_list(num):
+    hp = get_homepage(random.randint(1, 5))
+    hp = random.choices(hp, k=num)
     a = []
-    for n in range(num):
-        print(n)
-        d = get_random_id()
-        b = get_doujin(d)
-        a.append(b.__dict__)
+    for n in hp:
+        a.append(n.__dict__)
     return a
 
 
 def get_search_doujin_list(query, num):
     b = search(query, 1, "date")
-    b = b[:num]
+    b = random.choices(b, k=num)
     a = []
     for each in b:
         a.append(each.__dict__)
@@ -22,6 +22,8 @@ def get_search_doujin_list(query, num):
 
 
 def list_to_forward(li):
+    if isinstance(li, str):
+        li = [li]
     temp = []
     for each in li:
         data = {
@@ -45,11 +47,6 @@ def get_msg_by_doujin(doujin):
 '''
     msg += f'[CQ:image,file={doujin["thumbnail"]}]'
     print(msg)
-    msg_list.append(msg)
     for each in doujin['pages']:
         msg_list.append(f'[CQ:image,file={each[0]}]')
-    temp = '标签:\n'
-    for each in doujin['tags']:
-        temp += str(each[2]) + ':' + str(each[4]) + '个作品包含这个标签\n'
-    msg_list.append(temp)
-    return msg_list
+    return msg_list, msg
